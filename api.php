@@ -30,9 +30,14 @@ foreach ($headerLines as $headerLine) {
     }
 }
 
-$ipPort = str_replace(array("http://", "/"), "", $headerValue);
-
-list($ip, $port) = explode(":", $ipPort);
-print("ip={$ip}\nport={$port}");
+$ipPort = preg_replace('#^https?://#', '', $headerValue);
+$ipPort = rtrim($ipPort, '/');
+if (filter_var($ipPort, FILTER_VALIDATE_IP)) {
+    list($ip, $port) = explode(":", $ipPort);
+    print("ip={$ip}\nport={$port}");
+} else {
+    $domain = str_replace("https://", "", $ipPort);
+    print("IP= {$domain}");
+}
 
 ?>
