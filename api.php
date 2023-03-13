@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($_GET['code'])) {
-    die("Error: code parameter not provided");
+    die("no code provided");
 }
 
 $code = $_GET['code'];
@@ -28,6 +28,10 @@ foreach ($headerLines as $headerLine) {
         $headerValue = $headerParts[1];
         break;
     }
+}
+
+if (empty($headerValue)) {
+    die("Invalid Code");
 }
 
 $ipPort = preg_replace('#^https?://#', '', $headerValue);
